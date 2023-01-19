@@ -14,16 +14,17 @@ exports.newProducts = AsyncErrorHandler(async (req, res, next) => {
     })
 }
 )
+///
+exports.getProducts = AsyncErrorHandler(async (req, res, next) => {
 
-exports.getProducts = async (req, res, next) => {
-    try {
+    const product = await Product.find();
 
+    res.status(201).json({
+        success: true,
+        count: product.length,
+        product,
+        Message: "Product Fetched successfully",
 
-        res.status(200).json({
-            success: true,
-            message: 'This route will show all the data of database'
+    })
 
-        })
-    }
-    catch { (err) => { console.log(err) } };
-}
+})
