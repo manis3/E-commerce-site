@@ -19,7 +19,7 @@ exports.getProducts = AsyncErrorHandler(async (req, res, next) => {
 
     const product = await Product.find();
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         count: product.length,
         product,
@@ -48,3 +48,32 @@ exports.getSingleProducts = AsyncErrorHandler(async (req, res, next) => {
         product,
     })
 })
+
+///////////////////////update product using id => api/v1/update Product
+
+exports.updateProducts = AsyncErrorHandler(async (req, res, next) => {
+    let product = await Product.findById(req.params.id);
+    if (!product) {
+        return (
+            res.status(404).json({
+                success: false,
+                message: 'Product not found',
+            })
+        )
+    }
+    ////////////////////////////here product is not defined or decleard because it has already been decleared/////////
+    product = await Product.findByIdAndUpdate(req.params.id,
+        res.body, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "product updated successfully",
+        product,
+    });
+});
+
