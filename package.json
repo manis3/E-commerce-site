@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node Backend/server.jsx",
-    "dev": "nodemon Backend/server.jsx"
+    "dev": "nodemon Backend/server.jsx",
+    "seeder": "node Backend/utils/seeder.js"
   },
   "author": "Manish Hyongoju",
   "license": "ISC",
