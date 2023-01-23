@@ -1,23 +1,25 @@
 
 
 const Product = require('../models/product'); 
-const AsyncErrorHandler = require('../middleware/AsyncErrorHandler');
+const catchAsyncErrors = require('../middleware/catchAsyncError');
+const ErrorHandler = require('../utils/errorhandlers');
+const APIFeatures = require('../utils/apiFeatures');
 
 
 ///////////////////////////////Creating new Product => api/v1/products///////////
-exports.newProducts = AsyncErrorHandler(async (req, res, next) => {
+exports.newProducts = catchAsyncErrors(async (req, res, next) => {
     // req.body.user = req.user.id;
     const product = await Product.create(req.body);
     res.status(201).json({
         success: true,
         product,
     })
-}
-)
+})
 ///////////////////////Get all the products => api/v1/products ////
-exports.getProducts = AsyncErrorHandler(async (req, res, next) => {
+exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
-    const product = await Product.find();
+    const apiFeatures = new APIFeatures(Product.find(), req.query).search();
+    const product = await apiFeatures.query;
 
     res.status(200).json({
         success: true,
@@ -30,15 +32,12 @@ exports.getProducts = AsyncErrorHandler(async (req, res, next) => {
 })
 
 //////////////////////Get sinigle product Details => api/v1/products////
-exports.getSingleProducts = AsyncErrorHandler(async (req, res, next) => {
+exports.getSingleProducts = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
 
     if (!product) {
         return (
-            res.status(404).json({
-                success: false,
-                message: "Product not found",
-            })
+            next(new ErrorHandler('Product not found'), 404)
         )
     }
 
@@ -51,14 +50,11 @@ exports.getSingleProducts = AsyncErrorHandler(async (req, res, next) => {
 
 ///////////////////////update product using id => api/v1/update Product
 
-exports.updateProducts = AsyncErrorHandler(async (req, res, next) => {
+exports.updateProducts = catchAsyncErrors(async (req, res, next) => {
     let product = await Product.findById(req.params.id);
     if (!product) {
         return (
-            res.status(404).json({
-                success: false,
-                message: 'Product not found',
-            })
+            next(new ErrorHandler('Product not found', 404))
         )
     }
     ////////////////////////////here product is not defined or decleard because it has already been decleared/////////
@@ -76,4 +72,28 @@ exports.updateProducts = AsyncErrorHandler(async (req, res, next) => {
         product,
     });
 });
+
+
+
+/////////////////////////Delete Product => api/v1/product///////////////
+
+
+exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
+
+    let product = await Product.findById(req.params.id);
+    if (!product) {
+        return (
+            next(new ErrorHandler('Product not found', 404))
+
+        )
+    }
+    product = await product.remove();
+    res.status(200).json({
+        success: true,
+        message: "Product removed successfully",
+        product,
+    })
+})
+
+
 
