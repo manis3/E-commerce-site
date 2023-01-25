@@ -91,15 +91,15 @@ const productSchema = new mongoose.Schema({
         },
     ],
     //////////////////////////// required to save the types of users whp have added th product in the site////////////////
-//     user: {
-//         type: mongoose.Schema.ObjectId,
-//         ref: "user",
-//         required: true,
-//     },
-//     /////////////////////////////////
-//     createdAt: {
-//         type: Date,
-//         default: Date.now,
-//     },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "user",
+        required: true,
+    },
+    /////////////////////////////////
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 module.exports = mongoose.model("Product", productSchema);

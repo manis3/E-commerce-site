@@ -6,6 +6,8 @@ class APIFeatures {
 
     search() {
         const keyword = this.querystr.keyword ? {
+            //////////////////////here $or obejct is used because it allow to search in a multiple variable
+            // if it wasnt used then you can only search entered keywords in single key value
             "$or": [
 
 
