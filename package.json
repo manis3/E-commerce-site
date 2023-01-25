@@ -4,19 +4,30 @@
   "description": "E-commerce site using mern",
   "main": "server.js",
   "scripts": {
-    "start": "node Backend/server.jsx",
-    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon Backend/server.jsx",
-    "prod": "SET NODE_ENV=PRODUCTION& nodemon Backend/server.jsx",
+    "start": "nodemon Backend/server.js",
+    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon Backend/server.js",
+    "prod": "SET NODE_ENV=PRODUCTION& nodemon Backend/server.js",
     "seeder": "node Backend/utils/seeder.js"
   },
   "author": "Manish Hyongoju",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
     "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.8.4"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.4",
+    "nodemailer": "^6.9.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-routes-express": "^3.3.2",
+    "swagger-ui-express": "^4.6.0",
+    "validator": "^13.7.0",
+    "yaml": "^2.2.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
